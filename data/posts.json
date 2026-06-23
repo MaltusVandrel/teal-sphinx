@@ -1,0 +1,11 @@
+[
+  {
+    "id": "1",
+    "title": "Welcome to Teal Sphinx",
+    "subtitle": "A simple NestJS static blog powered by JSON",
+    "date": "2026-06-15",
+    "headerImage": "sample-header.svg",
+    "summary": "<p>This is a sample post. Inject HTML directly from JSON.</p><p>Use images, embeds, and any HTML you need.</p>",
+    "sources": [{ "name": "Repository", "link": "https://example.com" }]
+  }
+]

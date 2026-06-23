@@ -1,0 +1,25 @@
+<article class='post'>
+  <header class='post-header'>
+    <img
+      src='/images/headers/{{post.headerImage}}'
+      alt='{{post.title}}'
+      class='post-header-img'
+    />
+    <h2 class='post-title'>{{post.title}}</h2>
+    <h3 class='post-subtitle'>{{post.subtitle}}</h3>
+    <div class='post-date'>{{post.date}}</div>
+  </header>
+  <section class='post-body'>
+    {{{post.html}}}
+  </section>
+  {{#if post.sources}}
+    <section class='post-sources'>
+      <h4>Sources</h4>
+      <ul>
+        {{#each post.sources}}
+          <li><a href='{{link}}'>{{name}}</a></li>
+        {{/each}}
+      </ul>
+    </section>
+  {{/if}}
+</article>

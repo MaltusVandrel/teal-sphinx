@@ -1,0 +1,21 @@
+<section class='welcome'>
+  <h2>Latest posts</h2>
+  <ul class='posts'>
+    {{#each posts}}
+      <li class='post-item'>
+        <a href='/post/{{id}}'>
+          <img
+            src='/images/headers/{{headerImage}}'
+            alt='{{title}}'
+            class='thumb'
+          />
+          <div class='meta'>
+            <strong class='title'>{{title}}</strong>
+            <div class='subtitle'>{{subtitle}}</div>
+            <div class='date'>{{date}}</div>
+          </div>
+        </a>
+      </li>
+    {{/each}}
+  </ul>
+</section>

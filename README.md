@@ -1,98 +1,121 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Teal Sphinx — NestJS Static Blog
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A minimal, elegant NestJS blog powered by JSON data and handlebars templates. All blog content is controlled via JSON files and HTML fragments, with a custom design system featuring teal, cyan, and beige colors.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Features
 
-## Description
+- **JSON-driven content**: Post metadata and sources in `data/posts.json`
+- **Static HTML fragments**: Post body loaded from `views/posts/post.<id>.hbs`
+- **Handlebars templating**: Clean, semantic templates with two main views:
+  - Welcome page: Posts timeline/grid with thumbnails
+  - Blog page: Full article with header image, title, subtitle, date, body, and sources
+- **Design system**: Teal primary, cyan accents, beige paper background with light/dark mode support
+- **Responsive grid**: Auto-filling card layout on welcome page
+- **Per-post header images**: Served from `public/images/headers/`
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
+## Quick Start
 
 ```bash
-$ npm install
+npm install
+npm run start:dev
+# Open http://localhost:3000
 ```
 
-## Compile and run the project
+## Project Structure
+
+```
+data/
+  posts.json                 # Post metadata + sources array
+views/
+  layouts/
+    main.hbs                 # Main layout wrapper
+  index.hbs                  # Welcome page (posts list)
+  post.hbs                   # Single post page
+  posts/
+    post.1.hbs               # Post #1 HTML body
+    post.2.hbs               # Post #2 HTML body
+    ...
+public/
+  images/headers/
+    sample-header.svg        # Header images
+  styles.css                 # Design system + component styles
+src/
+  blog.service.ts            # Load posts from JSON + HTML fragments
+  blog.controller.ts         # GET /post/:id route
+  welcome.controller.ts      # GET / route (welcome page)
+  app.module.ts              # Module setup
+  main.ts                    # Static assets, views, view engine config
+```
+
+## Adding a New Post
+
+### 1. Add entry to `data/posts.json`:
+
+```json
+{
+  "id": "2",
+  "title": "Your Post Title",
+  "subtitle": "A short description",
+  "date": "2026-06-20",
+  "headerImage": "my-header.svg",
+  "sources": [{ "name": "Reference", "link": "https://example.com" }]
+}
+```
+
+### 2. Create post body at `views/posts/post.2.hbs`:
+
+```html
+<p>Your post content here.</p>
+<img src="/images/content/image.png" alt="description" />
+<blockquote>A meaningful quote.</blockquote>
+```
+
+### 3. Add header image to `public/images/headers/my-header.svg`
+
+The post is now live at `/post/2`.
+
+## Routes
+
+- `GET /` — Welcome page (lists all posts)
+- `GET /post/:id` — Single post page
+- `GET /styles.css` — Stylesheet
+- `GET /images/*` — Static images
+
+## Styling
+
+Colors and fonts are in `public/styles.css`:
+
+**Light mode**: beige paper, ink text, teal primary, cyan accent  
+**Dark mode**: deep teal bg, beige text, cyan primary, teal accent  
+**Typography**: Fraunces (display), Source Serif 4 (body), Inter (UI)
+
+CSS variables:
+
+- `--beige, --brown, --teal, --cyan, --ink` — Color palette
+- `--bg, --fg, --primary, --accent, --muted` — Functional colors
+- `--shadow-paper` — Card drop shadow
+- `--gradient-banner` — Header gradient
+- `--font-display, --font-serif, --font-sans` — Typography
+
+## Development
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm run build          # Build for production
+npm run start:prod     # Run compiled app
+npm run start:dev      # Watch mode
+npm run test           # Run tests
+npm run format         # Format code
+npm run lint           # Lint & fix
 ```
 
-## Run tests
+## Notes
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
-
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- Post ID must match filename: id `"1"` → `post.1.hbs`
+- Missing HTML file returns 404
+- Sources array in JSON is optional
+- Header images support SVG, PNG, JPG, WEBP
+- Template uses `{{{post.html}}}` (triple braces) to render HTML
 
 ## License
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Teal Sphinx is built with NestJS and made with ❤️.
